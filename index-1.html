@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#130d2c"><title>Akka's Birthday Surprise 💖</title>
+<style>
+:root{--pink:#ff7ab6;--lav:#c4a4ff;--gold:#ffe4a8;--ink:#130d2c;--cream:#fff8f1}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% 0%,#493068 0,#21173e 45%,#100b22 100%);color:#fff8ff;font-family:Georgia,serif;overflow-x:hidden}
+#sky,#fx{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}.star{position:absolute;background:white;width:2px;height:2px;border-radius:50%;animation:blink 2.8s infinite alternate}@keyframes blink{to{opacity:.15;transform:scale(.5)}}
+main{position:relative;z-index:1}.screen{min-height:100svh;padding:34px 18px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}.hidden{display:none!important}.eyebrow{font:700 .7rem Arial,sans-serif;letter-spacing:.28em;text-transform:uppercase;color:var(--gold)}h1{font-size:clamp(3.1rem,12vw,6.8rem);line-height:.95;letter-spacing:-.05em;font-weight:500;margin:22px 0}h1 em{display:block;color:var(--pink);font-weight:400}.sub{max-width:540px;font:1rem/1.7 Arial,sans-serif;color:#e6d9f2}.btn{border:1px solid #ffd0e6;border-radius:999px;padding:14px 22px;background:linear-gradient(135deg,#ff6fae,#b88cff);color:#fff;font:700 .92rem Arial,sans-serif;cursor:pointer;box-shadow:0 8px 28px #ff6fae2b;margin:8px;transition:.2s}.btn:hover{transform:translateY(-2px)}.ghost{background:#ffffff0b;border-color:#ffffff40}.icon-big{font-size:4rem;filter:drop-shadow(0 0 22px #ff7ab65a)}.instruction{font: .85rem/1.6 Arial,sans-serif;color:#d5c5e3;margin:12px 0 20px}
+.balloons{display:flex;flex-wrap:wrap;gap:13px;justify-content:center;max-width:420px;margin:22px auto}.balloon{width:65px;height:82px;border:0;border-radius:50% 50% 45% 45%;position:relative;cursor:pointer;box-shadow:inset -8px -8px 14px #0002, inset 7px 5px 12px #fff3;animation:float 2.4s ease-in-out infinite alternate}.balloon:after{content:"";position:absolute;left:50%;bottom:-19px;height:22px;border-left:1px solid #ffffff80}.balloon:nth-child(3n+1){background:#ff75b5}.balloon:nth-child(3n+2){background:#a78bfa}.balloon:nth-child(3n){background:#ffc76e}@keyframes float{to{transform:translateY(-10px) rotate(3deg)}}.balloon.popped{animation:pop .22s forwards;pointer-events:none}@keyframes pop{to{transform:scale(1.5);opacity:0}}
+.cake-wrap{font-size:clamp(5rem,22vw,9rem);margin:16px 0;filter:drop-shadow(0 0 25px #ff90c455)}.candles{display:flex;gap:18px;justify-content:center;margin:10px}.candle{font-size:2.1rem;border:1px solid #ffffff2c;background:#ffffff0a;border-radius:15px;padding:12px;cursor:pointer}.candle.off{filter:grayscale(1);opacity:.45}
+.panel{max-width:700px;width:100%;background:#ffffff0a;border:1px solid #ffffff24;border-radius:26px;padding:clamp(24px,6vw,45px);box-shadow:0 25px 70px #0003}.letter{background:linear-gradient(145deg,#fff8f1,#ffeaf3);color:#4a2440;border-radius:18px;padding:clamp(24px,6vw,42px);text-align:left;box-shadow:0 12px 35px #0002}.letter h2{text-align:center;font-size:clamp(2rem,7vw,3rem);margin:0 0 18px;color:#9b3f76}.letter p{font:1rem/1.9 Arial,sans-serif;white-space:pre-line}.sign{text-align:right;font-style:italic;color:#a34e81;font-size:1.2rem}.progress{font: .72rem Arial,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#c9b4dc;margin-bottom:18px}
+footer{padding:30px;text-align:center;color:#c8b5d9;font: .75rem Arial,sans-serif}
+@media(max-width:430px){.balloon{width:54px;height:70px}.screen{padding:28px 15px}}
+</style>
+</head>
+<body><div id="sky"></div><div id="fx"></div>
+<main>
+<section class="screen" id="welcome">
+<div class="eyebrow">A tiny world, made just for you</div><div class="icon-big">💌</div>
+<h1>Hey, <em>Akka 💖</em></h1>
+<p class="sub">Someone who makes life brighter deserves more than a plain birthday text. Ready for a little surprise?</p>
+<button class="btn" onclick="go('balloonScreen')">Tap to begin ✨</button>
+<div class="instruction">Made with love by Karan</div>
+</section>
+<section class="screen hidden" id="balloonScreen">
+<div class="progress">01 · Pop the balloons</div><div class="icon-big">🎈</div><h1 style="font-size:clamp(2.5rem,9vw,4.8rem)">Pop some <em>happiness!</em></h1>
+<p class="sub">Tap every balloon to unlock your birthday cake.</p><div class="balloons" id="balloons"></div><p class="instruction" id="balloonCount">0 of 6 popped</p>
+<button class="btn hidden" id="toCake" onclick="go('cakeScreen')">The cake is waiting 🎂</button>
+</section>
+<section class="screen hidden" id="cakeScreen">
+<div class="progress">02 · Make a wish</div><div class="icon-big">🎂</div><h1 style="font-size:clamp(2.5rem,9vw,4.8rem)">Your birthday <em>cake!</em></h1>
+<p class="sub">Tap each candle to blow it out. Don't forget to make a wish, Akka. ✨</p>
+<div class="cake-wrap">🎂</div><div class="candles" id="candles"></div><p class="instruction" id="candleCount">Tap all 5 candles</p>
+<button class="btn hidden" id="toLetter" onclick="go('letterScreen');burst()">Open your letter 💌</button>
+</section>
+<section class="screen hidden" id="letterScreen">
+<div class="progress">03 · A note from Karan</div><div class="panel"><div class="letter">
+<h2>Happy Birthday, Akka 💗</h2>
+<p>Dear Akka,
+
+Happy Birthday to someone truly special! 🎂
+
+You are True Bestie, Sweet Soul, Kind Heart, and I'm so grateful to have you in my life.
+
+You bring so much warmth and sweetness into my life. Every moment with you is precious.
+
+On your special day, I wish you all the happiness, love, and joy that you deserve. May this year bring you countless beautiful moments and wonderful memories.
+
+Here's to celebrating you today and always! 🎉
+
+With love and best wishes,
+Your Special Someone 💝
+
+Love 💕 you akka ✨🌏
+Be happy and be crazyyy</p>
+<div class="sign">With lots of love,<br>Karan ♡</div></div>
+<button class="btn" onclick="go('finalScreen');burst()">One last surprise 🎁</button></div>
+</section>
+<section class="screen hidden" id="finalScreen">
+<div class="icon-big">💖✨🎉</div><div class="eyebrow">A wish, just for you</div><h1 style="font-size:clamp(3rem,10vw,6rem)">Keep <em>shining, Akka!</em></h1>
+<p class="sub">No matter how busy life gets, I hope it always gives you reasons to laugh, people who stand by you, and moments worth remembering. Happy Birthday once again! 💗</p>
+<button class="btn" onclick="burst()">Celebrate again 🎊</button><button class="btn ghost" onclick="go('welcome')">Replay the surprise ↻</button>
+<p class="instruction">Made with love by Karan · Happy Birthday, Akka</p>
+</section>
+<footer>One small link. One big smile. 💖</footer>
+</main>
+<script>
+const sky=document.getElementById('sky');for(let i=0;i<100;i++){let s=document.createElement('i');s.className='star';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.animationDelay=Math.random()*3+'s';s.style.animationDuration=2+Math.random()*3+'s';sky.appendChild(s)}
+function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'});if(id==='balloonScreen'&&!document.getElementById('balloons').children.length)initBalloons();if(id==='cakeScreen'&&!document.getElementById('candles').children.length)initCandles()}
+let popped=0;function initBalloons(){const wrap=document.getElementById('balloons');for(let i=0;i<6;i++){const b=document.createElement('button');b.className='balloon';b.setAttribute('aria-label','Pop balloon');b.onclick=()=>{if(b.classList.contains('popped'))return;b.classList.add('popped');popped++;document.getElementById('balloonCount').textContent=popped+' of 6 popped';burstSmall();if(popped===6)document.getElementById('toCake').classList.remove('hidden')};wrap.appendChild(b)}}
+let blown=0;function initCandles(){const wrap=document.getElementById('candles');for(let i=0;i<5;i++){const b=document.createElement('button');b.className='candle';b.textContent='🕯️';b.setAttribute('aria-label','Blow out candle');b.onclick=()=>{if(b.classList.contains('off'))return;b.classList.add('off');b.textContent='💨';blown++;document.getElementById('candleCount').textContent=blown===5?'Wish made? ✨':' '+(5-blown)+' candles left';if(blown===5)document.getElementById('toLetter').classList.remove('hidden')};wrap.appendChild(b)}}
+function burstSmall(){const box=document.getElementById('fx');for(let i=0;i<10;i++){let e=document.createElement('span');e.textContent=['💖','✨','🎉'][Math.floor(Math.random()*3)];e.style.position='absolute';e.style.left=Math.random()*100+'%';e.style.top=(20+Math.random()*50)+'%';e.style.fontSize='20px';box.appendChild(e);setTimeout(()=>e.remove(),800)}}
+function burst(){const box=document.getElementById('fx'),emojis=['✨','💖','🎉','🌸','⭐','💕'];for(let i=0;i<65;i++){const e=document.createElement('span');e.textContent=emojis[Math.floor(Math.random()*emojis.length)];e.style.position='absolute';e.style.left=Math.random()*100+'%';e.style.top='-30px';e.style.fontSize=14+Math.random()*20+'px';e.style.transition='transform 2.8s ease-in, opacity 2.8s';box.appendChild(e);requestAnimationFrame(()=>{e.style.transform=`translateY(${innerHeight+80}px) rotate(${Math.random()*700-350}deg)`;e.style.opacity='0'});setTimeout(()=>e.remove(),3000)}}
+</script></body></html>
